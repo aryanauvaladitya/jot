@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-const version = "1.0.0"
+const version = "1.5.0"
 
 func main() {
 	_ = version
@@ -43,7 +43,11 @@ func main() {
 }
 
 func jotInit(r io.Reader, w io.Writer, now func() time.Time) error {
-	fmt.Fprint(w, "jot › what’s on your mind? ")
+	prompt := "jot › "
+	if isTTY(w) {
+		prompt = "\x1b[32m" + prompt + "\x1b[0m"
+	}
+	fmt.Fprint(w, prompt+"what’s on your mind? ")
 
 	reader := bufio.NewReader(r)
 	line, err := reader.ReadString('\n')
@@ -84,8 +88,54 @@ func jotList(w io.Writer) error {
 	}
 	defer file.Close()
 
-	_, err = io.Copy(w, file)
-	return err
+	if !isTTY(w) {
+		_, err = io.Copy(w, file)
+		return err
+	}
+
+	scanner := bufio.NewScanner(file)
+	var lines []string
+	for scanner.Scan() {
+		lines = append(lines, scanner.Text())
+	}
+	if err := scanner.Err(); err != nil {
+		return err
+	}
+
+	lastIdx := len(lines) - 1
+	for lastIdx >= 0 && strings.TrimSpace(lines[lastIdx]) == "" {
+		lastIdx--
+	}
+
+	prevDate := ""
+	sep := "\x1b[90m" + "----------------" + "\x1b[0m"
+	for i, line := range lines {
+		if strings.HasPrefix(line, "[") {
+			if end := strings.IndexByte(line, ']'); end > 0 {
+				ts := line[:end+1]
+				rest := line[end+1:]
+				datePart := strings.SplitN(ts[1:len(ts)-1], " ", 2)[0]
+				if prevDate != "" && datePart != prevDate {
+					if _, err := fmt.Fprintln(w, sep); err != nil {
+						return err
+					}
+				}
+				prevDate = datePart
+				if i == lastIdx {
+					rest = "\x1b[36m" + rest + "\x1b[0m"
+				}
+				line = "\x1b[90m" + ts + "\x1b[0m" + rest
+			}
+		} else if i == lastIdx {
+			line = "\x1b[36m" + line + "\x1b[0m"
+		}
+
+		if _, err := fmt.Fprintln(w, line); err != nil {
+			return err
+		}
+	}
+
+	return nil
 }
 
 func ensureJournal() (string, error) {
@@ -116,4 +166,16 @@ func journalPaths(home string) (string, string) {
 	journalDir := filepath.Join(home, ".jot")
 	journalPath := filepath.Join(journalDir, "journal.txt")
 	return journalDir, journalPath
+}
+
+func isTTY(w io.Writer) bool {
+	file, ok := w.(*os.File)
+	if !ok {
+		return false
+	}
+	info, err := file.Stat()
+	if err != nil {
+		return false
+	}
+	return (info.Mode() & os.ModeCharDevice) != 0
 }

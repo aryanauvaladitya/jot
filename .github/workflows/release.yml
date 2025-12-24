@@ -144,6 +144,16 @@ jobs:
           (Get-Content packaging/chocolatey/tools/chocolateyinstall.ps1) `
             -replace '^\$version = \".*\"$', "`$version = `"$version`"" `
             -replace '^\$checksum = \".*\"$', "`$checksum = `"$hash`"" | Set-Content packaging/chocolatey/tools/chocolateyinstall.ps1
+          @"
+          Verification is intended to assist the Chocolatey moderators and community
+          in verifying that this package's contents are trustworthy.
+
+          Download URL:
+          $url
+
+          SHA256:
+          $hash
+          "@ | Set-Content packaging/chocolatey/tools/VERIFICATION.txt
       - name: Pack and push
         shell: pwsh
         env:

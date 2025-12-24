@@ -19,6 +19,8 @@ Just one command, one notebook, and time.
 brew install jot
 # or
 npm install -g @intina47/jot
+# or (Windows)
+choco install jot
 ```
 
 Then, the moment a thought appears:
@@ -97,7 +99,6 @@ You’ll see:
 
 ```
 jot › what’s on your mind?
->
 ```
 
 Type one line.
@@ -107,16 +108,6 @@ Exit silently.
 No confirmation.
 No formatting.
 No dopamine tricks.
-
----
-
-### piped input (optional, powerful)
-
-```bash
-echo "this might be something later" | jot
-```
-
-If input isn’t coming from a terminal, **jot reads everything and appends it**.
 
 ---
 
